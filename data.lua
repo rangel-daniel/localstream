@@ -51,7 +51,12 @@ function data:load()
 		activeSession = getSession()
 
 		if activeSession then
-			print("begin playback!")
+			playback:new({
+				session = activeSession,
+				isPreloaded = isPreloaded,
+				["time-pos"] = data[activeSession]["time-pos"],
+				filename = data[activeSession].filename,
+			})
 		end
 	end
 end
