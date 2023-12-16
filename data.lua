@@ -40,6 +40,15 @@ end
 function data:load()
 	local file = io.open(dataDir, "r")
 
+	if not file then
+		file = io.open(dataDir, "w")
+		if file then
+			file:write(" ")
+			file:close()
+		end
+		file = io.open(dataDir, "r")
+	end
+
 	if file then
 		local fileData = utils.parse_json(file:read("*all"))
 
