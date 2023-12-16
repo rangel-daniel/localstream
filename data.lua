@@ -56,6 +56,8 @@ function data:load()
 				isPreloaded = isPreloaded,
 				["time-pos"] = data[activeSession]["time-pos"],
 				filename = data[activeSession].filename,
+				aid = data[activeSession].aid,
+				sid = data[activeSession].sid,
 			})
 		end
 	end

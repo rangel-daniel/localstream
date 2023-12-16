@@ -15,4 +15,16 @@ mp.observe_property("filename", "string", function(name, value)
 	end
 end)
 
+mp.observe_property("aid", "number", function(name, value)
+	if value then
+		data:updateSessionData(name, value)
+	end
+end)
+
+mp.observe_property("sid", "number", function(name, value)
+	if value then
+		data:updateSessionData(name, value)
+	end
+end)
+
 mp.register_event("end-file", data.save)
