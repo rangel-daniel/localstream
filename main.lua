@@ -5,7 +5,7 @@ data:load()
 
 mp.observe_property("time-pos", "number", function(name, value)
 	if value then
-		data:updateSessionData(name, value)
+		data:updateSessionData(name, math.max(value - 5, 0))
 	end
 end)
 
