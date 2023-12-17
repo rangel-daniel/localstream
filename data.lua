@@ -95,4 +95,60 @@ function data:updateSessionData(name, value)
 	end
 end
 
+function data:enableSkip()
+	if not playback.loaded then
+		return
+	end
+
+	local curr = data[activeSession]["skip-enabled"] or false
+	local new = not curr
+
+	data[activeSession]["skip-enabled"] = new
+
+	mp.osd_message("Skip intro " .. (new and "enabled!" or "disabled!"))
+end
+
+function data:setIntroLen(binding)
+	if not playback.loaded then
+		return
+	end
+
+	local message = "'Skip intro' is disabled, press " .. binding .. " to enable."
+
+	if data[activeSession]["skip-enabled"] then
+		local pos = data[activeSession]["time-pos"]
+
+		data[activeSession]["intro-len"] = pos
+		message = "Intro length set!"
+	end
+
+	mp.osd_message(message, 5)
+end
+
+function data:displaySkipMsg(binding)
+	local enabled = data[activeSession]["skip-enabled"]
+	local introLen = data[activeSession]["intro-len"]
+	if enabled and introLen then
+		local pos = data[activeSession]["time-pos"]
+		local duration = introLen - pos
+
+		duration = math.min(duration, 10)
+
+		if duration > 0 then
+			mp.osd_message("Skip intro (press " .. binding .. ")", duration)
+		end
+	end
+end
+
+function data:skipIntro()
+	local enabled = data[activeSession]["skip-enabled"]
+	local introLen = data[activeSession]["intro-len"]
+	local pos = data[activeSession]["time-pos"]
+
+	if enabled and introLen and introLen > pos then
+		mp.commandv("seek", introLen, "absolute", "exact")
+
+		mp.osd_message("", 1)
+	end
+end
 return data

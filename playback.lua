@@ -52,7 +52,7 @@ function playback:new(params)
 
 		if params["time-pos"] then
 			mp.add_timeout(0.1, function()
-				mp.commandv("seek", params["time-pos"], "absolute", "exact")
+				mp.commandv("seek", math.max(params["time-pos"] - 5, 0), "absolute", "exact")
 				if params.aid then
 					mp.set_property("aid", params.aid)
 				end
